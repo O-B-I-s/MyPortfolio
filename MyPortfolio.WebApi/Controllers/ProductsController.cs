@@ -83,20 +83,6 @@ namespace MyPortfolio.WebApi.Controllers
                                                        p.Description.Contains(query, StringComparison.OrdinalIgnoreCase));
             return Ok(filteredProjects);
         }
-        [HttpGet("filter")]
-        public async Task<IActionResult> FilterProjects([FromQuery] string? title, [FromQuery] string? description)
-        {
-            var projects = await _projectService.GetAllProjectsAsync();
-            if (!string.IsNullOrWhiteSpace(title))
-            {
-                projects = projects.Where(p => p.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-            }
-            if (!string.IsNullOrWhiteSpace(description))
-            {
-                projects = projects.Where(p => p.Description.Contains(description, StringComparison.OrdinalIgnoreCase));
-            }
-            return Ok(projects);
-        }
 
     }
 }
