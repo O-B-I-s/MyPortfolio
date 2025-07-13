@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using MyPortfolio.Core.Interfaces;
 using MyPortfolio.Data;
 using MyPortfolio.Data.Repositories;
+using MyPortfolio.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddDbContext<PortfolioDbContext>(o =>
 o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 var app = builder.Build();
 
