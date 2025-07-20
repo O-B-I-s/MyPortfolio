@@ -10,6 +10,7 @@ namespace MyPortfolio.Data
         }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<Language> Languages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

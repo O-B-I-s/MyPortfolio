@@ -20,6 +20,8 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ISkillRepository, SkillRespository>();
 builder.Services.AddScoped<ISkillService, SkillService>();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
 
 var app = builder.Build();
 
