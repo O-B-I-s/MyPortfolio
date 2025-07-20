@@ -18,6 +18,8 @@ o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<ISkillRepository, SkillRespository>();
+builder.Services.AddScoped<ISkillService, SkillService>();
 
 var app = builder.Build();
 

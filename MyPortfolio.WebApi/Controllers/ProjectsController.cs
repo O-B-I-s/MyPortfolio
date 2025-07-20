@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyPortfolio.Core.DTOs;
 using MyPortfolio.Core.Interfaces;
 using MyPortfolio.Core.Models;
 
@@ -6,10 +7,10 @@ namespace MyPortfolio.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProjectsController : ControllerBase
     {
         private readonly IProjectService _projectService;
-        public ProductsController(IProjectService projectService)
+        public ProjectsController(IProjectService projectService)
         {
             _projectService = projectService;
         }
@@ -35,13 +36,18 @@ namespace MyPortfolio.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProject([FromBody] Project project)
+        public async Task<IActionResult> AddProject([FromBody] CreateProjectDto projectDto)
         {
-            if (project == null)
+            if (projectDto == null)
             {
-                return BadRequest("Project cannot be null.");
+                return BadRequest("Project data cannot be null.");
             }
-            var addedProject = await _projectService.AddProjectAsync(project);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var addedProject = await _projectService.AddProjectAsync(projectDto);
             return CreatedAtAction(nameof(GetProjectById), new { id = addedProject.Id }, addedProject);
         }
 
@@ -52,12 +58,8 @@ namespace MyPortfolio.WebApi.Controllers
             {
                 return BadRequest("Project data is invalid.");
             }
-            var existingProject = await _projectService.GetProjectByIdAsync(id);
-            if (existingProject == null)
-            {
-                return NotFound();
-            }
-            var updatedProject = await _projectService.UpdateProjectAsync(existingProject);
+
+            var updatedProject = await _projectService.UpdateProjectAsync(project);
             return Ok(updatedProject);
         }
         [HttpDelete("{id}")]

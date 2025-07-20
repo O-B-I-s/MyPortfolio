@@ -1,4 +1,5 @@
-﻿using MyPortfolio.Core.Models;
+﻿using MyPortfolio.Core.DTOs;
+using MyPortfolio.Core.Models;
 
 namespace MyPortfolio.Core.Interfaces
 {
@@ -20,7 +21,7 @@ namespace MyPortfolio.Core.Interfaces
         /// </summary>
         /// <param name="project">The project to add.</param>
         /// <returns>The added project.</returns>
-        Task<Project> AddProjectAsync(Project project);
+        Task<Project> AddProjectAsync(CreateProjectDto projectDto);
         /// <summary>
         /// Updates an existing project.
         /// </summary>

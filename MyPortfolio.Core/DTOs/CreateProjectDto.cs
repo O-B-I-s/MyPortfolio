@@ -1,6 +1,6 @@
-﻿namespace MyPortfolio.Core.Models
+﻿namespace MyPortfolio.Core.DTOs
 {
-    public class Project
+    public class CreateProjectDto
     {
         public Guid Id { get; set; }
         public string? Title { get; set; }
@@ -8,6 +8,7 @@
         public Uri? LiveLink { get; set; }
         public Uri? GitHubLink { get; set; }
         public DateTime CreatedAt { get; set; }
-        public ICollection<Skill>? Skills { get; set; }
+        public List<Guid> SkillIds { get; set; } = new List<Guid>();
+
     }
 }

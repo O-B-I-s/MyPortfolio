@@ -25,6 +25,10 @@ namespace MyPortfolio.Data.Repositories
             {
 
                 await _db.Projects.AddAsync(project);
+                foreach (var skill in project.Skills)
+                {
+                    _db.Skills.Attach(skill);
+                }
                 await _db.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -48,13 +52,17 @@ namespace MyPortfolio.Data.Repositories
 
         public async Task<Project> GetProjectByIdAsync(Guid id)
         {
-            return await _db.Projects.FindAsync(id) ?? throw new KeyNotFoundException("Project not found.");
+            return await _db.Projects
+                 .Include(p => p.Skills)
+                 .FirstOrDefaultAsync(p => p.Id == id) ?? throw new KeyNotFoundException("Project not found.");
 
         }
 
         public async Task<IEnumerable<Project>> GetProjectsAsync()
         {
-            return await _db.Projects.ToListAsync() ?? throw new InvalidOperationException("No projects found.");
+            return await _db.Projects
+                .Include(p => p.Skills)
+                .ToListAsync() ?? throw new InvalidOperationException("No projects found.");
         }
 
         public async Task UpdateProjectAsync(Project project)
@@ -65,7 +73,14 @@ namespace MyPortfolio.Data.Repositories
             }
             try
             {
-                _db.Projects.Update(project);
+                var existingProject = await _db.Projects
+                    .Include(p => p.Skills)
+                    .AnyAsync(p => p.Id == project.Id);
+                if (!existingProject)
+                {
+                    throw new KeyNotFoundException("Project not found.");
+                }
+                _db.Entry(project).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
             }
             catch (Exception ex)
