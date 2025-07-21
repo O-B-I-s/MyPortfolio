@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Core.DTOs;
 using MyPortfolio.Core.Interfaces;
-using MyPortfolio.Core.Models;
 
 namespace MyPortfolio.WebApi.Controllers
 {
@@ -10,9 +9,11 @@ namespace MyPortfolio.WebApi.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectService _projectService;
-        public ProjectsController(IProjectService projectService)
+        private readonly IWebHostEnvironment _env;
+        public ProjectsController(IProjectService projectService, IWebHostEnvironment env)
         {
             _projectService = projectService;
+            _env = env;
         }
 
 
@@ -36,7 +37,7 @@ namespace MyPortfolio.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProject([FromBody] CreateProjectDto projectDto)
+        public async Task<IActionResult> AddProject([FromForm] CreateProjectDto projectDto)
         {
             if (projectDto == null)
             {
@@ -46,20 +47,44 @@ namespace MyPortfolio.WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var path = Path.Combine(_env.WebRootPath, "uploads");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
 
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(projectDto.Image.FileName)}";
+            var filePath = Path.Combine(path, fileName);
+            await using var stream = new FileStream(filePath, FileMode.Create);
+            await projectDto.Image.CopyToAsync(stream);
+            projectDto.ImageUrl = $"/uploads/{fileName}";
             var addedProject = await _projectService.AddProjectAsync(projectDto);
+
             return CreatedAtAction(nameof(GetProjectById), new { id = addedProject.Id }, addedProject);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProject(Guid id, [FromBody] Project project)
+        public async Task<IActionResult> UpdateProject(Guid id, [FromForm] CreateProjectDto projectDto)
         {
-            if (project == null || project.Id != id)
+            if (projectDto == null || projectDto.Id != id)
             {
                 return BadRequest("Project data is invalid.");
             }
+            if (projectDto.Image != null)
+            {
+                var path = Path.Combine(_env.WebRootPath, "uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(projectDto.Image.FileName)}";
+                var filePath = Path.Combine(path, fileName);
+                await using var stream = new FileStream(filePath, FileMode.Create);
+                await projectDto.Image.CopyToAsync(stream);
+                projectDto.ImageUrl = $"/uploads/{fileName}";
+            }
 
-            var updatedProject = await _projectService.UpdateProjectAsync(project);
+            var updatedProject = await _projectService.UpdateProjectAsync(projectDto);
             return Ok(updatedProject);
         }
         [HttpDelete("{id}")]

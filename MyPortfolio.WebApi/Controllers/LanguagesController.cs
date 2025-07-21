@@ -10,9 +10,11 @@ namespace MyPortfolio.WebApi.Controllers
     public class LanguagesController : ControllerBase
     {
         private readonly ILanguageService _languageService;
-        public LanguagesController(ILanguageService language)
+        private readonly IWebHostEnvironment _env;
+        public LanguagesController(ILanguageService language, IWebHostEnvironment env)
         {
             _languageService = language ?? throw new ArgumentNullException(nameof(language));
+            _env = env;
         }
 
         [HttpGet]
@@ -26,7 +28,7 @@ namespace MyPortfolio.WebApi.Controllers
             catch (Exception ex)
             {
                 // Log the exception
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving languages.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving languages. {ex}");
             }
         }
         [HttpGet("{id}")]
@@ -44,11 +46,11 @@ namespace MyPortfolio.WebApi.Controllers
             catch (Exception ex)
             {
                 // Log the exception
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving the language.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving the language.{ex}");
             }
         }
         [HttpPost]
-        public async Task<IActionResult> AddLanguage([FromBody] Language language)
+        public async Task<IActionResult> AddLanguage([FromForm] Language language)
         {
             if (language == null)
             {
@@ -56,17 +58,27 @@ namespace MyPortfolio.WebApi.Controllers
             }
             try
             {
+                var path = Path.Combine(_env.WebRootPath, "uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(language.Image.FileName)}";
+                var filePath = Path.Combine(path, fileName);
+                await using var stream = new FileStream(filePath, FileMode.Create);
+                await language.Image.CopyToAsync(stream);
+                language.ImageUrl = $"/uploads/{fileName}";
                 await _languageService.AddLanguageAsync(language);
                 return CreatedAtAction(nameof(GetLanguageById), new { id = language.Id }, language);
             }
             catch (Exception ex)
             {
                 // Log the exception
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while adding the language.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while adding the language.{ex}");
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateLanguage(Guid id, [FromBody] Language language)
+        public async Task<IActionResult> UpdateLanguage(Guid id, [FromForm] Language language)
         {
             if (language == null || language.Id != id)
             {
@@ -74,7 +86,19 @@ namespace MyPortfolio.WebApi.Controllers
             }
             try
             {
-
+                if (language.Image != null)
+                {
+                    var path = Path.Combine(_env.WebRootPath, "uploads");
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(language.Image.FileName)}";
+                    var filePath = Path.Combine(path, fileName);
+                    await using var stream = new FileStream(filePath, FileMode.Create);
+                    await language.Image.CopyToAsync(stream);
+                    language.ImageUrl = $"/uploads/{fileName}";
+                }
                 await _languageService.UpdateLanguageAsync(language);
                 return Ok(language);
             }
@@ -105,7 +129,7 @@ namespace MyPortfolio.WebApi.Controllers
             catch (Exception ex)
             {
                 // Log the exception
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while deleting the language.");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting the language.{ex}");
             }
         }
 

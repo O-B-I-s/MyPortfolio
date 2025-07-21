@@ -18,6 +18,7 @@ namespace MyPortfolio.WebApi.Services
 
         public async Task<Project> AddProjectAsync(CreateProjectDto projectDto)
         {
+
             var project = new Project
             {
                 Id = projectDto.Id,
@@ -26,6 +27,7 @@ namespace MyPortfolio.WebApi.Services
                 LiveLink = projectDto.LiveLink,
                 GitHubLink = projectDto.GitHubLink,
                 CreatedAt = projectDto.CreatedAt,
+                ImageUrl = projectDto.ImageUrl,
                 Skills = new List<Skill>()
             };
 
@@ -62,10 +64,37 @@ namespace MyPortfolio.WebApi.Services
             return await _repo.GetProjectByIdAsync(id);
         }
 
-        public async Task<Project> UpdateProjectAsync(Project project)
+        public async Task<Project> UpdateProjectAsync(CreateProjectDto projectDto)
         {
-            await _repo.UpdateProjectAsync(project);
-            return await _repo.GetProjectByIdAsync(project.Id);
+            var existingProject = await _repo.GetProjectByIdAsync(projectDto.Id);
+            if (existingProject == null)
+            {
+                throw new KeyNotFoundException($"Project with ID {projectDto.Id} not found.");
+            }
+            existingProject.Title = projectDto.Title;
+            existingProject.Description = projectDto.Description;
+            existingProject.LiveLink = projectDto.LiveLink;
+            existingProject.GitHubLink = projectDto.GitHubLink;
+            existingProject.CreatedAt = projectDto.CreatedAt;
+            // Update ImageUrl only if a new image is provided
+            if (!string.IsNullOrEmpty(projectDto.ImageUrl))
+            {
+                existingProject.ImageUrl = projectDto.ImageUrl;
+            }
+            if (projectDto.SkillIds != null && projectDto.SkillIds.Any())
+            {
+                existingProject.Skills.Clear();
+                foreach (var skillId in projectDto.SkillIds)
+                {
+                    var skill = await _skillRepository.GetSkillByIdAsync(skillId);
+                    if (skill != null)
+                    {
+                        existingProject.Skills.Add(skill);
+                    }
+                }
+            }
+            await _repo.UpdateProjectAsync(existingProject);
+            return await _repo.GetProjectByIdAsync(existingProject.Id);
         }
     }
 }

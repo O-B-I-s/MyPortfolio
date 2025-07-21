@@ -27,7 +27,7 @@ namespace MyPortfolio.Core.Interfaces
         /// </summary>
         /// <param name="project">The project to update.</param>
         /// <returns>The updated project.</returns>
-        Task<Project> UpdateProjectAsync(Project project);
+        Task<Project> UpdateProjectAsync(CreateProjectDto projectDto);
         /// <summary>
         /// Deletes a project by its ID.
         /// </summary>

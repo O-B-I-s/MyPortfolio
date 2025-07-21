@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Core.Models;
-
 namespace MyPortfolio.Data.Repositories
 {
     public class ProjectRepository : IProjectRepository
     {
         private readonly PortfolioDbContext _db;
+
         public ProjectRepository(PortfolioDbContext db)
         {
             _db = db ?? throw new ArgumentNullException(nameof(db));
+
         }
 
 
