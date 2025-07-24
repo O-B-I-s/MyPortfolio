@@ -22,6 +22,10 @@ builder.Services.AddScoped<ISkillRepository, SkillRespository>();
 builder.Services.AddScoped<ISkillService, SkillService>();
 builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddScoped<IFrameworkRepository, FrameworkRepository>();
+builder.Services.AddScoped<IFrameworkService, FrameworkService>();
+builder.Services.AddScoped<IDevOpsToolRepository, DevOpToolsRepository>();
+builder.Services.AddScoped<IDevOpsToolService, DevOpsToolService>();
 
 var app = builder.Build();
 
