@@ -13,7 +13,7 @@ namespace MyPortfolio.Data
         public DbSet<Language> Languages { get; set; }
         public DbSet<Framework> Frameworks { get; set; }
         public DbSet<DevOpsTool> DevOpsTools { get; set; }
-        public DbSet<Database> Databases { get; set; }
+        public DbSet<Databases> Databases { get; set; }
         public DbSet<CloudService> CloudServices { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

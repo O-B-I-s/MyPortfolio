@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyPortfolio.Core.Models
 {
-    public class Database
+    public class Databases
     {
         public Guid Id { get; set; }
         public string? Name { get; set; }

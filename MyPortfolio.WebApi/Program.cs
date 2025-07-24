@@ -26,6 +26,10 @@ builder.Services.AddScoped<IFrameworkRepository, FrameworkRepository>();
 builder.Services.AddScoped<IFrameworkService, FrameworkService>();
 builder.Services.AddScoped<IDevOpsToolRepository, DevOpToolsRepository>();
 builder.Services.AddScoped<IDevOpsToolService, DevOpsToolService>();
+builder.Services.AddScoped<ICloudServiceRepository, CloudServiceRepository>();
+builder.Services.AddScoped<ICloudService_Service, CloudService_Service>();
+builder.Services.AddScoped<IDatabaseRepository, DatabaseRepository>();
+builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 
 var app = builder.Build();
 
