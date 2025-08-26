@@ -1,0 +1,67 @@
+<section id="skills" class="py-20 bg-gradient-to-b from-accent/20 to-accent/5">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4">Skills & Expertise</h2>
+      <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+        A comprehensive toolkit for building modern, scalable applications
+      </p>
+    </div>
+
+    <!-- Skill Categories with Progress -->
+    <div class="grid md:grid-cols-3 gap-8 mb-16">
+      <app-card
+        *ngFor="let category of skillCategories"
+        class="border-border/50"
+      >
+        <app-card-content class="p-6">
+          <h3 class="text-xl font-semibold mb-6 text-center">
+            {{ category.title }}
+          </h3>
+          <div class="space-y-4">
+            <div *ngFor="let skill of category.skills">
+              <div class="flex justify-between items-center mb-2">
+                <span class="font-medium">{{ skill.name }}</span>
+                <span class="text-sm text-muted-foreground"
+                  >{{ skill.level }}%</span
+                >
+              </div>
+              <app-progress [value]="skill.level" class="h-2"></app-progress>
+            </div>
+          </div>
+        </app-card-content>
+      </app-card>
+    </div>
+
+    <!-- Technologies Cloud -->
+    <div class="text-center">
+      <h3 class="text-2xl font-semibold mb-8">Technologies I Work With</h3>
+      <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+        <app-badge
+          *ngFor="let tech of technologies"
+          variant="outline"
+          class="text-base py-2 px-4 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200 cursor-default"
+        >
+          {{ tech }}
+        </app-badge>
+      </div>
+    </div>
+
+    <!-- Certifications/Learning -->
+    <div class="mt-16 text-center">
+      <h3 class="text-2xl font-semibold mb-8">Continuous Learning</h3>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <app-card *ngFor="let cert of certifications" class="border-border/50">
+          <app-card-content class="p-6 text-center">
+            <div
+              class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mx-auto mb-4"
+            >
+              <span class="text-2xl">{{ cert.icon }}</span>
+            </div>
+            <h4 class="font-semibold mb-2">{{ cert.title }}</h4>
+            <p class="text-sm text-muted-foreground">{{ cert.subtitle }}</p>
+          </app-card-content>
+        </app-card>
+      </div>
+    </div>
+  </div>
+</section>
