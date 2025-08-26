@@ -31,6 +31,18 @@ builder.Services.AddScoped<ICloudService_Service, CloudService_Service>();
 builder.Services.AddScoped<IDatabaseRepository, DatabaseRepository>();
 builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 
+
+//Add Cors policy
+builder.Services.AddCors(o => o.AddPolicy("AllowFronted",
+    builder => builder.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+
+
+
+    ));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,11 +51,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowFronted");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseStaticFiles();
 
 app.Run();
