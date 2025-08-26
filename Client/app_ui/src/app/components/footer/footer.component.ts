@@ -3,7 +3,6 @@ import { ButtonComponent } from '../shared/ui/button/button.component';
 
 @Component({
   selector: 'app-footer',
-  standalone: false,
   //imports: [ButtonComponent],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css',

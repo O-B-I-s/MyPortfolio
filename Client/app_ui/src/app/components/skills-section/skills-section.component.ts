@@ -6,6 +6,7 @@ import {
 } from '../shared/ui/card/card.component';
 import { ProgressComponent } from '../shared/ui/progress/progress.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 interface Skill {
   name: string;
@@ -17,22 +18,9 @@ interface SkillCategory {
   skills: Skill[];
 }
 
-interface Certification {
-  title: string;
-  subtitle: string;
-  icon: string;
-}
-
 @Component({
   selector: 'app-skills-section',
-  standalone: false,
-  //   //imports: [
-  //     BadgeComponent,
-  //     CardComponent,
-  //     CardContentComponent,
-  //     ProgressComponent,
-  //     CommonModule,
-  // // ],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './skills-section.component.html',
   styleUrl: './skills-section.component.css',
 })
@@ -84,20 +72,5 @@ export class SkillsSectionComponent {
     'REST APIs',
     'Jest',
     'Cypress',
-  ];
-
-  certifications: Certification[] = [
-    {
-      title: 'AWS Certified',
-      subtitle: 'Cloud Solutions Architect',
-      icon: '🎓',
-    },
-    {
-      title: 'React Specialist',
-      subtitle: 'Advanced React Patterns',
-      icon: '⚛️',
-    },
-    { title: 'UX Design', subtitle: 'Google UX Certificate', icon: '🎨' },
-    { title: 'Security', subtitle: 'Web Security Fundamentals', icon: '🔒' },
   ];
 }

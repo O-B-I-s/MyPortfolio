@@ -15,7 +15,6 @@ interface Stat {
 
 @Component({
   selector: 'app-about-section',
-   standalone: false,
   //imports: [CommonModule, SharedModule],
   templateUrl: './about-section.component.html',
   styleUrl: './about-section.component.css',

@@ -1,219 +1,95 @@
 <section
   id="experience"
-  class="py-20 bg-gradient-to-b from-accent/5 to-accent/20"
+  class="py-20 bg-gradient-to-b from-accent/10 to-accent/5"
 >
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
-      <h2 class="text-3xl sm:text-4xl font-bold mb-4">
-        Experience & Education
-      </h2>
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4">Work Experience</h2>
       <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
-        My professional journey and continuous learning path in technology
+        My professional journey and the experiences that shaped my expertise
       </p>
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-8">
-      <!-- Experience Timeline -->
-      <div class="lg:col-span-2">
-        <h3 class="text-2xl font-semibold mb-8">Work Experience</h3>
-        <div class="space-y-6">
-          <app-card *ngFor="let exp of experiences" class="relative">
-            <app-card-header>
+    <div class="max-w-4xl mx-auto">
+      <div class="relative">
+        <!-- Timeline line -->
+        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-border"></div>
+
+        <div class="space-y-12">
+          <div
+            *ngFor="let experience of experiences; let i = index"
+            class="relative flex items-start gap-8"
+          >
+            <!-- Timeline dot -->
+            <div
+              class="relative z-10 w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg"
+            >
+              <div class="w-8 h-8 bg-primary-foreground rounded-full"></div>
+            </div>
+
+            <!-- Content -->
+            <div
+              class="flex-1 bg-card rounded-lg border border-border/50 p-6 shadow-sm"
+            >
               <div
-                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
               >
                 <div>
-                  <h4 class="text-xl font-semibold">{{ exp.title }}</h4>
-                  <div
-                    class="flex items-center gap-2 text-muted-foreground mt-1"
-                  >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                      ></path>
-                    </svg>
-                    <span>{{ exp.company }}</span>
-                  </div>
+                  <h3 class="text-xl font-semibold">
+                    {{ experience.position }}
+                  </h3>
+                  <h4 class="text-lg text-primary font-medium">
+                    {{ experience.company }}
+                  </h4>
                 </div>
-                <div class="flex flex-col sm:items-end gap-1">
-                  <app-badge
-                    [variant]="
-                      exp.type === 'Full-time' ? 'default' : 'secondary'
-                    "
-                  >
-                    {{ exp.type }}
-                  </app-badge>
-                  <div
-                    class="flex items-center gap-1 text-sm text-muted-foreground"
-                  >
-                    <svg
-                      class="w-3 h-3"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      ></path>
-                    </svg>
-                    {{ exp.duration }}
-                  </div>
-                  <div
-                    class="flex items-center gap-1 text-sm text-muted-foreground"
-                  >
-                    <svg
-                      class="w-3 h-3"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      ></path>
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      ></path>
-                    </svg>
-                    {{ exp.location }}
-                  </div>
+                <div
+                  class="text-sm text-muted-foreground font-medium bg-accent px-3 py-1 rounded-full"
+                >
+                  {{ experience.duration }}
                 </div>
               </div>
-            </app-card-header>
-            <app-card-content>
-              <ul class="space-y-2 mb-4">
-                <li
-                  *ngFor="let item of exp.description"
-                  class="text-muted-foreground flex items-start gap-2"
-                >
-                  <span
-                    class="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"
-                  ></span>
-                  {{ item }}
-                </li>
-              </ul>
+
+              <p class="text-muted-foreground mb-4">
+                {{ experience.description }}
+              </p>
+
+              <!-- Technologies -->
               <div class="flex flex-wrap gap-2">
-                <app-badge
-                  *ngFor="let tech of exp.technologies"
-                  variant="outline"
-                  class="text-xs"
+                <span
+                  *ngFor="let tech of experience.technologies"
+                  class="text-xs py-1 px-3 bg-primary/10 text-primary rounded-full"
                 >
                   {{ tech }}
-                </app-badge>
+                </span>
               </div>
-            </app-card-content>
-          </app-card>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- Education & Certifications -->
-      <div>
-        <h3 class="text-2xl font-semibold mb-8">Education</h3>
-        <div class="space-y-6">
-          <app-card *ngFor="let edu of education">
-            <app-card-header>
-              <h4 class="text-lg font-semibold">{{ edu.degree }}</h4>
-              <div class="text-muted-foreground">
-                <div class="flex items-center gap-2 mb-1">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                    ></path>
-                  </svg>
-                  <span>{{ edu.school }}</span>
-                </div>
-                <div class="flex items-center gap-2 mb-1">
-                  <svg
-                    class="w-3 h-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    ></path>
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    ></path>
-                  </svg>
-                  <span class="text-sm">{{ edu.location }}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <svg
-                    class="w-3 h-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    ></path>
-                  </svg>
-                  <span class="text-sm">{{ edu.duration }}</span>
-                </div>
-              </div>
-            </app-card-header>
-            <app-card-content>
-              <p class="text-sm text-muted-foreground">{{ edu.description }}</p>
-            </app-card-content>
-          </app-card>
-        </div>
-
-        <!-- Additional Info -->
-        <div class="mt-8">
-          <app-card>
-            <app-card-header>
-              <h4 class="text-lg font-semibold">Key Achievements</h4>
-            </app-card-header>
-            <app-card-content>
-              <ul class="space-y-2 text-sm">
-                <li
-                  *ngFor="let achievement of achievements"
-                  class="flex items-start gap-2"
-                >
-                  <span
-                    class="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"
-                  ></span>
-                  {{ achievement }}
-                </li>
-              </ul>
-            </app-card-content>
-          </app-card>
-        </div>
-      </div>
+    <!-- Download Resume Button -->
+    <div class="text-center mt-16">
+      <a
+        href="/resume.pdf"
+        download
+        class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 10v6m0 0l-4-4m4 4l4-4m-6 8h8a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v11a2 2 0 002 2z"
+          />
+        </svg>
+        Download Resume
+      </a>
     </div>
   </div>
 </section>

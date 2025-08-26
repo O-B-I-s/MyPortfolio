@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
-import { ComponentsModule } from './components/components.module';
+//import { ComponentsModule } from './components/components.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContactSectionComponent } from './components/contact-section/contact-section.component';
 import { ExperienceSectionComponent } from './components/experience-section/experience-section.component';
@@ -13,7 +13,16 @@ import { SkillsSectionComponent } from './components/skills-section/skills-secti
 @Component({
   selector: 'app-root',
   //standalone: false,
-  imports: [ComponentsModule],
+  imports: [
+    HeaderComponent,
+    HeroSectionComponent,
+    AboutSectionComponent,
+    SkillsSectionComponent,
+    ProjectsSectionComponent,
+    ExperienceSectionComponent,
+    ContactSectionComponent,
+    FooterComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

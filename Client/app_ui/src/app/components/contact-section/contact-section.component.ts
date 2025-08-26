@@ -1,83 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ButtonComponent } from '../shared/ui/button/button.component';
-interface ContactInfo {
-  icon: string;
-  label: string;
-  value: string;
-  href: string;
-}
+import { CommonModule } from '@angular/common';
 
-interface SocialLink {
-  icon: string;
-  label: string;
-  href: string;
-  username: string;
-}
 @Component({
   selector: 'app-contact-section',
-  standalone: false,
-  //imports: [ButtonComponent],
+
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './contact-section.component.html',
   styleUrl: './contact-section.component.css',
 })
-export class ContactSectionComponent implements OnInit {
+export class ContactSectionComponent {
   contactForm!: FormGroup;
-
-  contactInfo: ContactInfo[] = [
-    {
-      icon: 'mail',
-      label: 'Email',
-      value: 'hello@Johnson',
-      href: 'mailto:hello@johnson',
-    },
-    {
-      icon: 'phone',
-      label: 'Phone',
-      value: '+1 (825) 454-0771',
-      href: 'tel:+18254540771',
-    },
-    {
-      icon: 'location',
-      label: 'Location',
-      value: 'Calgary Alberta, CA',
-      href: '#',
-    },
-  ];
-
-  socialLinks: SocialLink[] = [
-    {
-      icon: 'github',
-      label: 'GitHub',
-      href: 'https://github.com/O-B-I-s',
-      username: '@O-B-I-s',
-    },
-    {
-      icon: 'linkedin',
-      label: 'LinkedIn',
-      href: 'www.linkedin.com/in/johnson-o-3974382b5',
-      username: 'Johnson O',
-    },
-    {
-      icon: 'twitter',
-      label: 'Twitter',
-      href: 'https://twitter.com/null',
-      username: '@null',
-    },
-  ];
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.initForm();
-  }
-
-  private initForm(): void {
+  constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      subject: ['', [Validators.required]],
-      message: ['', [Validators.required]],
+      subject: ['', [Validators.required, Validators.minLength(5)]],
+      message: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
 
@@ -85,7 +31,22 @@ export class ContactSectionComponent implements OnInit {
     if (this.contactForm.valid) {
       console.log('Form submitted:', this.contactForm.value);
       // Handle form submission here
+      alert("Thank you for your message! I'll get back to you soon.");
       this.contactForm.reset();
+    } else {
+      // Mark all fields as touched to show validation errors
+      this.contactForm.markAllAsTouched();
     }
+  }
+
+  // Helper method to check if a field has an error and is touched
+  hasError(fieldName: string, errorType?: string): boolean {
+    const field = this.contactForm.get(fieldName);
+    if (!field) return false;
+
+    if (errorType) {
+      return !!(field.hasError(errorType) && field.touched);
+    }
+    return !!(field.invalid && field.touched);
   }
 }

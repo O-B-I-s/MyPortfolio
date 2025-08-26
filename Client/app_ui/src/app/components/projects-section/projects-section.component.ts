@@ -1,19 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 interface Project {
   title: string;
   description: string;
   image: string;
   technologies: string[];
-  liveUrl: string;
   githubUrl: string;
-  featured: boolean;
+  liveUrl: string;
 }
 
 @Component({
   selector: 'app-projects-section',
-   standalone: false,
-  //imports: [],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './projects-section.component.html',
   styleUrl: './projects-section.component.css',
 })
@@ -22,88 +22,32 @@ export class ProjectsSectionComponent {
     {
       title: 'E-Commerce Platform',
       description:
-        'A full-stack e-commerce solution with payment integration, inventory management, and admin dashboard. Built with modern React and Node.js.',
+        'A full-stack e-commerce solution with React, Node.js, and PostgreSQL. Features include user authentication, payment processing, and admin dashboard.',
       image:
-        'https://images.unsplash.com/photo-1634084462412-b54873c0a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
-      technologies: [
-        'React',
-        'Node.js',
-        'PostgreSQL',
-        'Stripe',
-        'Tailwind CSS',
-      ],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: true,
+        'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlY29tbWVyY2UlMjBhcHBsaWNhdGlvbnxlbnwxfHx8fDE3NTYxMzQ5ODB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
+      githubUrl: 'https://github.com/yourusername/ecommerce-platform',
+      liveUrl: 'https://ecommerce-demo.vercel.app',
     },
     {
       title: 'Task Management App',
       description:
-        'A collaborative project management tool with real-time updates, team chat, and advanced analytics dashboard.',
+        'A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.',
       image:
-        'https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
-      technologies: [
-        'Next.js',
-        'TypeScript',
-        'Prisma',
-        'WebSocket',
-        'Shadcn/ui',
-      ],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: true,
-    },
-    {
-      title: 'Portfolio Website',
-      description:
-        'A responsive portfolio website with dark mode, smooth animations, and optimized performance.',
-      image:
-        'https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
-      technologies: ['React', 'Tailwind CSS', 'Framer Motion', 'Vite'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: false,
+        'https://images.unsplash.com/photo-1611224923853-80b023f02d71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0YXNrJTIwbWFuYWdlbWVudHxlbnwxfHx8fDE3NTYxMzQ5ODB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      technologies: ['React', 'TypeScript', 'Firebase', 'Material-UI'],
+      githubUrl: 'https://github.com/yourusername/task-manager',
+      liveUrl: 'https://task-manager-demo.vercel.app',
     },
     {
       title: 'Weather Dashboard',
       description:
-        'A beautiful weather application with location-based forecasts, interactive maps, and weather alerts.',
+        'A responsive weather dashboard with location-based forecasts, interactive maps, and detailed weather analytics using external APIs.',
       image:
-        'https://images.unsplash.com/photo-1634084462412-b54873c0a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
-      technologies: ['Vue.js', 'Python', 'FastAPI', 'Chart.js'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: false,
-    },
-    {
-      title: 'Social Media Analytics',
-      description:
-        'A comprehensive analytics platform for social media management with real-time data visualization.',
-      image:
-        'https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
-      technologies: ['React', 'D3.js', 'MongoDB', 'Express.js'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: false,
-    },
-    {
-      title: 'Booking System',
-      description:
-        'A complete booking and reservation system for restaurants with calendar integration and payment processing.',
-      image:
-        'https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080',
-      technologies: ['Angular', 'NestJS', 'MySQL', 'Redis'],
-      liveUrl: '#',
-      githubUrl: '#',
-      featured: false,
+        'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWF0aGVyJTIwYXBwbGljYXRpb258ZW58MXx8fHwxNzU2MTM0OTgwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      technologies: ['Vue.js', 'Chart.js', 'OpenWeather API', 'Tailwind'],
+      githubUrl: 'https://github.com/yourusername/weather-dashboard',
+      liveUrl: 'https://weather-dashboard-demo.vercel.app',
     },
   ];
-
-  get featuredProjects(): Project[] {
-    return this.projects.filter((project) => project.featured);
-  }
-
-  get otherProjects(): Project[] {
-    return this.projects.filter((project) => !project.featured);
-  }
 }
